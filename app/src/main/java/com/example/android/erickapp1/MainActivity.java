@@ -5,9 +5,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.support.v4.app.ShareCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -25,7 +28,10 @@ public class MainActivity extends AppCompatActivity {
     BluetoothAdapter bluetAdapt;
     ArrayAdapter <String> arrayAdapter;
     ListView listDevicesBT;
-    String []lista = {"itemA","itemB","itemC","itemD"};
+    AlertDialog dialogo;
+
+    ListView hj;
+    ArrayAdapter<String> adapterTwo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         listDevicesBT = (ListView) findViewById(R.id.ListBtDevices);
 
-        arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,lista);
+        arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
         listDevicesBT.setAdapter(arrayAdapter);
     }
 
@@ -74,10 +80,7 @@ public class MainActivity extends AppCompatActivity {
             //OBTIENE TODOS LOS DISPOSITIVOS SINCRONIZADOS
             for(BluetoothDevice device:pairedDevices)
             {
-                //arrayAdapter.add(device.getName().toString()+""/*"\n"+device.getAddress()*/);
-                /*Log.v(TAG, "PairedDevices: " + device.getName() + "  "
-                        + device.getAddress());*/
-                textMessage.setText(textMessage.getText()+"\n"+device.getName());
+                arrayAdapter.add(device.getName().toString()+"\n"+device.getAddress());
             }
         }
     }
@@ -86,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     {
 
     }
-   /* private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -96,5 +99,44 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-    IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);*/
+
+    public void example(View v)
+    {
+        AlertDialog.Builder gdialog = new AlertDialog.Builder(this);
+        View vista = this.getLayoutInflater().inflate(R.layout.devices_layout,null);
+        hj = (ListView) vista.findViewById(R.id.listDevices);
+        adapterTwo = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
+        hj.setAdapter(adapterTwo);
+        Set<BluetoothDevice> pairedDevices = bluetAdapt.getBondedDevices();
+        if(pairedDevices.size()>0)
+        {
+            //OBTIENE TODOS LOS DISPOSITIVOS SINCRONIZADOS
+            for(BluetoothDevice device:pairedDevices)
+            {
+                adapterTwo.add(device.getName().toString()+"\n"+device.getAddress());
+            }
+        }
+        gdialog.setView(vista);
+        hj.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Object var =  hj.getItemAtPosition(position);
+                String mac = var.toString();
+                textMessage.setText(mac.substring(mac.length()-17));
+                dialogo.dismiss();
+            }
+        });
+        dialogo = gdialog.create();
+        dialogo.show();
+    }
+
+    public void permiso()
+    {
+        //IDENTIFICA SI LA VERSION DEL SISTEMA ES MAYOR O IGUAL A MASHMALLOW(version 6)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+
+        }
+    }
+
 }
