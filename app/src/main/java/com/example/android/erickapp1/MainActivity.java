@@ -17,7 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.view.View;
 import android.bluetooth.BluetoothDevice;
-import android.util.Log;
+import java.util.UUID;
 
 import java.util.Set;
 
@@ -29,21 +29,27 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter <String> arrayAdapter;
     ListView listDevicesBT;
     AlertDialog dialogo;
-
+    ConnectThread con;
     ListView hj;
     ArrayAdapter<String> adapterTwo;
+
+    BluetoothDevice deviceBTcon;
+    //Variable UUID: Conexión que identifica a la aplicación unica y
+    //Generada aleatoriamente por una página web en este caso: http://www.marcnuri.com
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         //This is the code write for the programmer
+        bluetAdapt = BluetoothAdapter.getDefaultAdapter();
+
         textMessage = (TextView) findViewById(R.id.textMessage);
         btnTestBT = (Button) findViewById(R.id.btnTestBt);
 
-        listDevicesBT = (ListView) findViewById(R.id.ListBtDevices);
-
         arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
-        listDevicesBT.setAdapter(arrayAdapter);
     }
 
     @Override
@@ -54,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     //Metodo: Verifica si esta prendido bluetooth, en caso que no: intenta prenderlo
     public void startBluetooth(View v)
     {
-        bluetAdapt = BluetoothAdapter.getDefaultAdapter();
+
         if(bluetAdapt ==null)
         {
 
@@ -123,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
                 Object var =  hj.getItemAtPosition(position);
                 String mac = var.toString();
                 textMessage.setText(mac.substring(mac.length()-17));
+                //deviceBTcon = bluetAdapt.getRemoteDevice(mac);
+
                 dialogo.dismiss();
             }
         });
@@ -137,6 +145,11 @@ public class MainActivity extends AppCompatActivity {
         {
 
         }
+    }
+    public void conectar()
+    {
+        con = new ConnectThread(deviceBTcon);
+        con.start();
     }
 
 }
