@@ -55,29 +55,6 @@
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:text="Hi, this the RoBi App :)"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button4"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="83dp"
-        android:id="@+id/textView2"
-        android:fontFamily="cursive"
-        android:textSize="24sp" />
-
-    <TextView
-        android:text="aqui aparecera un mensaje"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true"
-
-        android:layout_marginTop="51dp"
-        android:id="@+id/textMessage"
-        android:textStyle="normal|bold"
-        android:textAlignment="textStart" />
-
     <Button
         android:text="Test Bluetooth"
         android:layout_width="wrap_content"
@@ -86,5 +63,44 @@
         android:onClick="startBluetooth"
         android:layout_marginTop="30dp"
         android:layout_below="@+id/button4"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp" />
+
+    <Button
+        android:text="SINCRONIZED"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSincBT"
+        android:layout_alignBaseline="@+id/btnTestBt"
+        android:layout_alignBottom="@+id/btnTestBt"
+        android:layout_alignRight="@+id/button3"
+        android:layout_alignEnd="@+id/button3"
+        android:layout_marginRight="13dp"
+        android:layout_marginEnd="13dp"
+        android:onClick="example"/>
+
+    <TextView
+        android:text="aqui aparecera un mensaje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:id="@+id/textMessage"
+        android:textStyle="normal|bold"
+        android:textAlignment="textStart"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp" />
+
+    <TextView
+        android:text="Hi, this the RoBi App :)"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:fontFamily="cursive"
+        android:textSize="24sp"
+        android:layout_below="@+id/btnTestBt"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
